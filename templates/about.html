@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
-    <title>{{ title }}</title>
+{% extends "base.html" %}
+
+{% block content %}
     <h2>README</h2>
     <div class="readme">
         {% for line in text %}
@@ -15,8 +12,4 @@
         {% endfor %}
     </div>
 
-</head>
-<body>
-
-</body>
-</html>
+{% endblock %}

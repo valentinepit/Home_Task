@@ -52,6 +52,7 @@ def add_header(r):
 
 @app.route("/")
 def register():
+    # show readme in browser
     text = []
     host = request.host_url
     with open('README.md', 'r') as f:
@@ -63,13 +64,17 @@ def register():
 
 @app.route("/query;<value>")
 def parser(value):
+    '''
+    get query from browser and calling constructor
+    convert result to dictionary
+    make a header of a table from dictionary keys
+    '''
     value = value.replace('&', ' ')
     values = value.split('  ')
     items = []
     for item in values:
         items.append(item.split(';'))
     values = dict(items)
-    #print(f'values = {values}')
     query_result = alchemy.main_constructor(values)
     result = [u._asdict() for u in query_result]
     try:
@@ -82,8 +87,21 @@ def parser(value):
     return render_template("index.html", title="Result", items=res, head=head)
 
 
+@app.errorhandler(404)
+def not_found_error(error):
+    home = request.host_url
+    return render_template('404.html', home=home), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    home = request.host_url
+    db.session.rollback()
+    return render_template('500.html', home=home), 500
+
+
 def main():
-    app.run(debug=True)
+    app.run(debug=False)
 
 
 if __name__ == '__main__':

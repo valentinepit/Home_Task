@@ -1,0 +1,16 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet"/>
+    {% if title %}
+        <title>{{ title }} - HomeTask</title>
+    {% else %}
+        <title>Welcome to HomeTask</title>
+    {% endif %}
+</head>
+<body>
+<div>Readme: <a href="/">Home</a></div>
+<hr>
+{% block content %}{% endblock %}
+</body>
+</html>

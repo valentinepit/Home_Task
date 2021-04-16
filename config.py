@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, 
 
 
 class Config(object):
-    DEBUG = True
+    DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'fsdkfd32r234fsdf'
     SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@localhost/flask_base'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
