@@ -2,17 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
     <title>{{ title }}</title>
-    <h2>{{ text }}</h2>
-    <div class="header">
-       <p>Results</p>
-   </div>
-   <table class="content" cellpadding="2px" cellspacing="10px">
-       <tr>
-       {% for col in result %}
-           <td class="top">{{ col }}</td>
-       {% endfor %}
-       </tr>
+    <h2>README</h2>
+    <div class="readme">
+        {% for line in text %}
+            <p>{{ line }}</p>
+        {% endfor %}
+    </div>
+
 </head>
 <body>
 

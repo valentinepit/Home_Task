@@ -52,8 +52,11 @@ def add_header(r):
 
 @app.route("/")
 def register():
-    alchemy.get_all()
-    return render_template("about.html", title="Read me", text='Welcome')
+    text = []
+    with open('README.md', 'r') as f:
+        for line in f:
+            text.append(line)
+    return render_template("about.html", title="Readme", text=text)
 
 
 @app.route("/query;<value>")
