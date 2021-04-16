@@ -1,5 +1,5 @@
 In the case of AdjustHomeTask
-This API is made using technology: Python 3.9, Flask, SQLAlchemy, PostgreSQL
+This API is made using technologies: Python 3.9, Flask, SQLAlchemy, PostgreSQL
 
 This project consist of three main moduls: app.py, constructor.py, config.py
 
@@ -15,7 +15,7 @@ executing SQL query and returns results to app.py
 config.py 
 
 File to save settings and parameters of connection 
-use SQLALCHEMY_DATABASE_URI to connect DB to project
+Use SQLALCHEMY_DATABASE_URI to connect DB to project
 
 How to:
 Request must be started by "query;"
