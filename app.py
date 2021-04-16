@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from flask_migrate import Migrate
@@ -53,8 +53,10 @@ def add_header(r):
 @app.route("/")
 def register():
     text = []
+    host = request.host_url
     with open('README.md', 'r') as f:
         for line in f:
+            line = line.replace('http://127.0.0.1:5000/', host)
             text.append(line)
     return render_template("about.html", title="Readme", text=text)
 
@@ -67,7 +69,7 @@ def parser(value):
     for item in values:
         items.append(item.split(';'))
     values = dict(items)
-    print(f'values = {values}')
+    #print(f'values = {values}')
     query_result = alchemy.main_constructor(values)
     result = [u._asdict() for u in query_result]
     try:

@@ -1,21 +1,7 @@
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Date, Enum, Float,\
     select, and_, desc, func
+from config import dataset, engine
 
-meta = MetaData()
-engine = create_engine('postgresql://flask:flask@localhost/flask_base', echo=True)
-dataset = Table(
-    'dataset', meta,
-    Column('id', Integer, primary_key=True),
-    Column('date', Date),
-    Column('channel', String(50), nullable=False),
-    Column('country', String(2), nullable=False),
-    Column('os', Enum('ios', 'android', name='os')),
-    Column('impressions', Integer, nullable=False),
-    Column('clicks', Integer, nullable=False),
-    Column('installs', Integer, nullable=False),
-    Column('spend', Float, nullable=False),
-    Column('revenue', Float, nullable=False)
-)
 
 
 def get_all():
@@ -32,9 +18,9 @@ def main_constructor(values):
 
     if 'cols' in values:
         labels, cols_query = get_cols(values['cols'], [])
-        print(f'cols_query = {cols_query}')
+        # print(f'cols_query = {cols_query}')
         select_query = f'select([{cols_query}])'
-        print(f'select_query = {select_query}')
+        # print(f'select_query = {select_query}')
     if 'where' in values:
         where_cols = prepare_cols(values['where'])
         where_cols = get_cols(where_cols, None)
@@ -53,12 +39,12 @@ def main_constructor(values):
 
 
 def replace_labels(query, labels):
-    print(f'query before = {query}')
+    # print(f'query before = {query}')
     for label in labels:
         replace_string = f'dataset.c.{label}'
         if replace_string in query:
             query = query.replace(replace_string, f'"{label}"')
-    print(f'query after = {query}')
+    # print(f'query after = {query}')
     return query
 
 
@@ -72,33 +58,44 @@ def prepare_cols(col):
     return col
 
 def get_cols(cols, labels):
-    print(f'cols before {cols}')
+    # print(f'cols before {cols}')
     result_cols = ''
     for col in cols.split():
-        print(f'COL = {col}')
         if 'sum' in col:
-            if ':' in col:
-                cpi_cols = get_cpi(col)
-                labels.append('CPI')
-                result_cols += cpi_cols
-                continue
-            col = col.replace('sum(', '').replace(')', '')
-            result_cols += f'func.sum(dataset.c.{col}).label("{col}"),'
-            labels.append(col)
+            col, label = modify_col(col)
+            # print(f'label = {label}')
+            result_cols += f'func.sum({col}'
+            labels.append(label)
             continue
-
+        elif labels == [] and '(' in col:
+            col, label = modify_col(col)
+            result_cols = f'{result_cols}({col}'
+            labels.append(label)
+            continue
         if 'desc(' in col:
             col = col.replace('desc(', '').replace(')', '')
             result_cols += 'desc(dataset.c.' + col + '),'
         else:
             result_cols += 'dataset.c.' + col + ','
-    print(f'labels = {labels}')
-    print(f'cols after {result_cols}')
+    # print(f'labels = {labels}')
+    # print(f'cols after {result_cols}')
     if labels:
         return labels, result_cols[:-1]
     else:
         return result_cols[:-1]
 
+def modify_col(col):
+    col = col.replace('sum', '').replace('(', '')
+    items = col.split(':')
+    result_cols = ''
+    for item in items:
+        res = f'dataset.c.{item}'
+        # print(f'res = {res}')
+        result_cols = f'{result_cols}{res}/'
+    if ':' in col:
+        return f'{result_cols[:-1]}.label("CPI"),', 'CPI'
+    else:
+        return f'{result_cols[:-1]}.label("{item[:-1]}"),', item[:-1]
 
 def get_cpi(col):
     # If we have (revenue/installs) it returns (dataset.c.revenue / dataset.c.installs)

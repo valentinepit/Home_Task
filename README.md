@@ -15,6 +15,7 @@ executing SQL query and returns results to app.py
 config.py 
 
 File to save settings and parameters of connection 
+use SQLALCHEMY_DATABASE_URI to connect DB to project
 
 How to:
 Request must be started by "query;"
@@ -23,12 +24,13 @@ Command-command separator "&&" (group;os&&order;os)
 Parameter-parameter separator "&" (order;os&date)
 
 To choose columns use "cols;"
-To use WHERE use "where;"
-To use ORDER_BY use 'order;'
-To use GROUP_BY use 'group;'
-To use DESC use 'desc(column)'
-To SUM use "sum(column)"
-If You need to find CPI use "sum(revenue:installs)"
+To use WHERE type "where;"
+To use ORDER_BY type  'order;'
+To use GROUP_BY type  'group;'
+To use DESC type  'desc(column)'
+To SUM type  "sum(column)"
+If You need to find CPI use "(revenue:installs)"
+To ORDER or GROUP by CPI use "order(CPI)" or group(CPI)
 
 
 1. Show the number of impressions and clicks that occurred before the 1st of June 2017, 
