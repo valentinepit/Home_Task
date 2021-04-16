@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <h2>{{ text }}</h2>
+    <div class="header">
+       <p>Results</p>
+   </div>
+   <table class="content" cellpadding="2px" cellspacing="10px">
+       <tr>
+       {% for col in result %}
+           <td class="top">{{ col }}</td>
+       {% endfor %}
+       </tr>
+</head>
+<body>
+
+</body>
+</html>
