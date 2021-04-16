@@ -7,7 +7,11 @@
     <h2>README</h2>
     <div class="readme">
         {% for line in text %}
-            <p>{{ line }}</p>
+            {% if 'http' in line %}
+                <p><a href = '{{ line }}'> {{ line }}</a></p>
+            {% else %}
+                <p>{{ line }}</p>
+            {% endif %}
         {% endfor %}
     </div>
 

@@ -31,7 +31,14 @@ To SUM use "sum(column)"
 If You need to find CPI use "sum(revenue:installs)"
 
 
-1. http://127.0.0.1:5000/query;cols;channel&country&sum(impressions)&sum(clicks)&&where;date%3C%222017-06-01%22&&group;channel&country&&order;desc(clicks)
-2.http://127.0.0.1:5000/query;cols;date&sum(installs)&&where;date_to=%222017-05-31%22&date_from=%222017-05-1%22&os=%22ios%22&&group;date&&order;date
-3.http://127.0.0.1:5000/query;cols;os&sum(revenue)&&where;date_to=%222017-05-31%22&country=%22US%22&&group;os&&order;desc(revenue)
-4.http://127.0.0.1:5000/query;cols;channel&sum(revenue:installs)&&where;country=%22CA%22&&group;channel&&order;desc(CPI)
+1. Show the number of impressions and clicks that occurred before the 1st of June 2017, 
+   broken down by channel and country, sorted by clicks in descending order.
+http://127.0.0.1:5000/query;cols;channel&country&sum(impressions)&sum(clicks)&&where;date%3C%222017-06-01%22&&group;channel&country&&order;desc(clicks)
+
+2. Show the number of installs that occurred in May of 2017 on iOS, broken down by date, sorted by date in ascending order.
+http://127.0.0.1:5000/query;cols;date&sum(installs)&&where;date_to=%222017-05-31%22&date_from=%222017-05-1%22&os=%22ios%22&&group;date&&order;date
+3. Show revenue, earned on June 1, 2017 in US, broken down by operating system and sorted by revenue in descending order.
+http://127.0.0.1:5000/query;cols;os&sum(revenue)&&where;date_to=%222017-05-31%22&country=%22US%22&&group;os&&order;desc(revenue)
+4. Show CPI and spend for Canada (CA) broken down by channel ordered by CPI in descending order. 
+   Please think carefully which is an appropriate aggregate function for CPI.
+http://127.0.0.1:5000/query;cols;channel&sum(revenue:installs)&&where;country=%22CA%22&&group;channel&&order;desc(CPI)
