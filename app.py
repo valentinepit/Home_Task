@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from flask_migrate import Migrate
 from config import Config
-import Flask_2 as alchemy
+import constructor as alchemy
 
 
 def create_app():
